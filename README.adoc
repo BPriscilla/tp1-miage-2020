@@ -48,13 +48,18 @@ _Temps estimé : 1 h_
 * Observer le code du projet `todolist-debut-ex1`
 
 IMPORTANT: [Question]  Le code est-il structuré en couches ? Imaginez un projet d'entreprise constitué de centaines de classes ainsi structuré : que risque-t-il d'arriver ?
-IMPORTANT: [Réponse] Le projet n'est pas en couche étant donné que toutes les sources sont dans le même projet et le même package. De plus dans les fichiers certaines classes ont des utilisations ambigues (classe ToDoItem utilisée comme entité JPA et DTO). Si un projet de grande empleur était structuré ainsi, la maintenabilitée serait difficile et source d'erreurs et les tests seraient chaotiques.
+
+_Le projet n'est pas en couche étant donné que toutes les sources sont dans le même projet et le même package. De plus dans les fichiers certaines classes ont des utilisations ambigues (classe ToDoItem utilisée comme entité JPA et DTO)._
+
+_Si un projet de grande empleur était structuré ainsi, la maintenabilitée serait difficile et source d'erreurs et les tests seraient chaotiques._
 
 IMPORTANT: [Question]  Que se passe-t-il si l'on renomme une colonne de la base de donnée ?
-IMPORTANT: [Réponse] Si une colonne de la base de donnée était modifiée, il faudrait modifier l'entité JPA (classe ToDoItem).
+
+_Si une colonne de la base de donnée était modifiée, il faudrait modifier l'entité JPA (classe ToDoItem)._
 
 IMPORTANT: [Question]  Où se trouve le code métier (voir la règle de gestion RG1) ? cette règle est-elle facilement testable par un test unitaire ? 
-IMPORTANT: [Réponse] Il se trouve dans la classe ToDoListController (ce qui dans une architecture en couche serait la couche service, au lieu de la couche domaine). Cette règle métier n'est pas facie à tester puisqu'elle nécessite un appel http sur le point d'entrée Rest.
+
+_Il se trouve dans la classe ToDoListController (ce qui dans une architecture en couche serait la couche service, au lieu de la couche domaine). Cette règle métier n'est pas facie à tester puisqu'elle nécessite un appel http sur le point d'entrée Rest._
 
 * Lancer une base PostgreSQL en Docker :
 ```bash
@@ -62,11 +67,19 @@ docker run --rm -it -e POSTGRES_PASSWORD=password -p 5432:5432 postgres
 ```
 IMPORTANT: [Question]  Expliquer cette ligne de commande (y compris les options utilisées)
 
+Pour la partie qui suit, nous n'avons pas pu utiliser docker, car sous Windows. Nous avons néanmoins pu faire le TP en installant un serveur postgres.
+
+_La commande `docker run` lance un conteneur. Après son exécution, les données du conteneur persistent. `--rm` permet de supprimer ces données, notamment le fichier système. `-it` signifie "interactive" et "tty", ces options permettent notamment de lancer un bash pour agir à directement à l'intérieur du conteneur. `-e` permet de paramétrer une variable d'environnement. `-p` permet d'exposer les ports pour connexion._
+
 IMPORTANT: [Question]  Lancer les commandes `docker ps` et `ps -eaf | grep postgres`, à quoi correspondent les lignes affichées ? Que remarquez vous ?
+
+_La commande `ps` permet d'afficher des informations concernant les processus actifs. L'option `-f` permet d'afficher les informations de façon exhaustive, `-e` sélectionne tous les processus, `-a` rejette les processus liés au terminal de la sélection._
 
 * Compléter le code manquant dans la méthode `TodoListController.createTodoItem()`
 
 * IMPORTANT: [Question] Pourquoi `todoItemRepository` est-il `null` ? Quelle est la meilleure façon de l'injecter ? 
+
+_Il faut utiliser l'injection de dépendance grâce au design parttern `Decorator`, qui nous permet d'utilier @Inject._
 
 * Modifier le code en conséquence.
 
@@ -105,7 +118,8 @@ Source : http://leanpub.com/get-your-hands-dirty-on-clean-architecture[Tom Hombe
   - la couche entités qui contient les entités (au sens DDD, pas au sens JPA). En général, classes complexes (méthodes riches, relations entre les entités,  pas de simples POJO anémiques)
 
 IMPORTANT: [Question] Rappeler en quelques lignes les grands principes de cette architecture.
-IMPORTANT: [Réponse] L'idée de l'architecture hexagonale est de développer autour de la logique métier, autour du domaine. Cela permet d'éviter les perversions d'une approche purement technique qui engendre de mauvais développements ou des développements inutiles. Les ports (input/output) sont les contrats engageant le domaine et les parties in/out. La partie in consomme le domaine et attend certaines données de celui-ci ; la partie out est consommée par le domaine et persiste les données transmises par ce dernier.
+
+_L'idée de l'architecture hexagonale est de développer autour de la logique métier, autour du domaine. Cela permet d'éviter les perversions d'une approche purement technique qui engendre de mauvais développements ou des développements inutiles. Les ports (input/output) sont les contrats engageant le domaine et les parties in/out. La partie in consomme le domaine et attend certaines données de celui-ci ; la partie out est consommée par le domaine et persiste les données transmises par ce dernier._
 
 Complétez ce code avec une fonctionnalité de création de `TodoItem`  persisté en base et appelé depuis un endpoint REST `POST /todos` qui renvoi un code `201` en cas de succès. La fonctionnalité à implémenter est contractualisée par le port d'entrée `AddTodoItem`.
 
