@@ -32,6 +32,18 @@ public class TodoItem {
 		return content;
 	}
 	
+	public void setId (String id) {
+		this.id = id;
+	}
+	
+	public void setTime(Instant time) {
+		this.time = time;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
 	/**
 	 * Constructeur vide imposé par JPA, ne pas utiliser
 	 */
