@@ -132,6 +132,10 @@ _Temps estimé : 20 mins_
 
 IMPORTANT: [Question] Quels types de tests devra-t-on écrire pour les adapteurs ? 
 
-IMPORTANT: [Question] Que teste-on dans ce cas ? 
+_Il faudra écrire des tests d'intégration et des test unitaires._
+
+IMPORTANT: [Question] Que teste-on dans ce cas ?
+
+_On va d'abord tester si les adapteurs fonctionnent comme prévu avec un des éléments d'entrée/sortie maîtrisés (TU). Par la suite, on peut tester s'ils fonctionnent avec d'autres composants et si ces composants fonctionnent avec les adapteurs (TI). Les TI (vérification inter-composants) doivent se faire après les TU (vérification intra-composant), comme vu en module de méthodes formelles au premier semestre._
 
 * S'il vous reste du temps, écrivez quelques uns de ces types de test.
